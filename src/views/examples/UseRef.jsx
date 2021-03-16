@@ -1,36 +1,89 @@
-import React, {useState, useRef} from 'react'
-import PageTitle from '../../components/layout/PageTitle'
-import SectionTitle from '../../components/layout/SectionTitle';
+import React, { useState, useEffect, useRef } from "react";
+import PageTitle from "../../components/layout/PageTitle";
+import SectionTitle from "../../components/layout/SectionTitle";
+
+const merge = function (string1, string2) {
+  const tamanho = string1.length + string2.length;
+  let resultado = "";
+
+  for (let i = 0; i < tamanho; i++) {
+    if (string1[i]) {
+      resultado += string1[i];
+    }
+
+    if (string2[i]) {
+      resultado += string2[i];
+    }
+  }
+
+  return resultado;
+};
 
 const UseRef = (props) => {
+  const [value1, setValue1] = useState("");
+  const [value2, setValue2] = useState("");
 
-    const [value1, setValue1] = useState(2);
-    const count = useRef(0);
+  let count = useRef(0);
 
-    count.current = count.current +1;
+  const myInput1 = useRef(null);
+  const myInput2 = useRef(null);
 
-    return (
-        <div className="UseRef">
-            <PageTitle
-                title="Hook UseRef"
-                subtitle="Retorna um objeto mutável com a propriedade .current!"
-            />
-            <SectionTitle title="exercicio 01"></SectionTitle>
-            <div className="center">
-                <div>
-                    <span className="text">Valor: </span>
-                    <span className="text">{value1}[</span>
-                    <span className="text red">{count.current}</span>
-                    <span className="text">]</span>
-                </div>
-                
-                <input type="text" className="input" value={value1} onChange={(e)=>{
-                    setValue1(e.target.value)
-                }}/>
+  useEffect(
+    function () {
+      count.current += 1;
+      myInput2.current.focus();
+    },
+    [value1]
+  );
 
-            </div>
+  useEffect(
+    function () {
+      count.current += 1;
+      myInput1.current.focus();
+    },
+    [value2]
+  );
+
+  return (
+    <div className="UseRef">
+      <PageTitle
+        title="Hook UseRef"
+        subtitle="Retorna um objeto mutável com a propriedade .current!"
+      />
+      <SectionTitle title="exercicio 01"></SectionTitle>
+      <div className="center">
+        <div>
+          <span className="text">Valor: </span>
+          <span className="text">{merge(value1, value2)}[</span>
+          <span className="text red">{count.current}</span>
+          <span className="text">]</span>
         </div>
-    )
-}
 
-export default UseRef
+        <input
+          type="text"
+          className="input"
+          ref={myInput1}
+          value={value1}
+          onChange={(e) => {
+            setValue1(e.target.value);
+          }}
+        />
+      </div>
+
+      <SectionTitle title="Exercicio 02"></SectionTitle>
+      <div className="center">
+        <input
+          type="text"
+          className="input"
+          ref={myInput2}
+          value={value2}
+          onChange={(e) => {
+            setValue2(e.target.value);
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default UseRef;
