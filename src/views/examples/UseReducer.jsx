@@ -16,7 +16,7 @@ function reducer(state, action) {
     case "number_add2":
       return { ...state, number: state.number + 2 };
     case "login":
-      return { ...state, user: { name: action.payload.name } };
+      return { ...state, user: { name: action.payload } };
     case "multiplyBy7":
       return { ...state, number: state.number * 7 };
     case "divideBy25":
@@ -24,7 +24,7 @@ function reducer(state, action) {
     case "parseInt":
       return { ...state, number: parseInt(state.number) };
     case "setNumber":
-        return {...state, number: action.payload.number}
+        return {...state, number: action.payload}
     default:
       return state;
   }
@@ -52,7 +52,7 @@ const UseReducer = (props) => {
           <button
             className="btn"
             onClick={(e) => {
-              dispatch({ type: "login", payload: { ...this, name: "Maria" } });
+              dispatch({ type: "login", payload: "Maria" });
             }}
           >
             Entrar
@@ -92,7 +92,7 @@ const UseReducer = (props) => {
               SetInputNumber(e.target.value)
           }}/>
           <button className="btn" onClick={e=>{
-              dispatch({type: "setNumber", payload: {...this, number: inputNumber}})
+              dispatch({type: "setNumber", payload: inputNumber})
           }}>setNumber</button>
         </div>
       </div>
